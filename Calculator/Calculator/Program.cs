@@ -5,14 +5,16 @@
         private static readonly Func<double, double, double> add = (a, b) => a + b;
         private static readonly Func<double, double, double> sub = (a, b) => a - b;
         private static readonly Func<double, double, double> mul = (a, b) => a * b;
-        private static readonly Func<double, double, double> div = (a, b) => a / b;
+        private static readonly Func<double, double, double> div = (a, b) => b == 0 ? 0 : a / b;
 
         static void Main(string[] args)
         {
-            while (true)
-            {
-                Calculate();
-            }
+            //while (true)
+            //{
+            //    Calculate();
+            //}
+            var result = div(2, 0);
+            Console.WriteLine(result);
         }
 
         private static void Calculate()
