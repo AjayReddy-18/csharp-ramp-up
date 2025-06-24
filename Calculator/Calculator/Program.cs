@@ -9,12 +9,10 @@
 
         static void Main(string[] args)
         {
-            //while (true)
-            //{
-            //    Calculate();
-            //}
-            var result = div(2, 0);
-            Console.WriteLine(result);
+            while (true)
+            {
+                Calculate();
+            }
         }
 
         private static void Calculate()
