@@ -1,4 +1,6 @@
-﻿namespace People
+﻿using Newtonsoft.Json;
+
+namespace People
 {
     internal abstract class Person
     {
@@ -20,6 +22,12 @@
          public override string ToString()
         {
             return Name;
+        }
+
+        public string ToJson()
+        {
+            var info = JsonConvert.SerializeObject(this, Formatting.Indented);
+            return info;
         }
     }
 }

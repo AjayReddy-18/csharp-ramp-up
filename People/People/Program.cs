@@ -9,6 +9,9 @@
             e.Introduce();
             var m = new Manager("Krishna");
             m.Introduce();
+
+            Console.WriteLine(e.ToJson());
+            Console.WriteLine(m.ToJson());
         }
     }
 }
