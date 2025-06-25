@@ -2,13 +2,13 @@
 
 namespace TodoApp
 {
-        internal class Program
+    internal class Program
+    {
+        static void Main(string[] args)
         {
-            static void Main(string[] args)
-            {
-                var todo = new Todo();
-                var todoManager = new TodoManager(todo);
-                todoManager.Start();
-            }
+            var todo = new Todo();
+            var todoManager = new TodoManager(todo);
+            todoManager.Start();
         }
     }
+}

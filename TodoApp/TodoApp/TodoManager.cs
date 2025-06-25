@@ -1,4 +1,5 @@
-﻿namespace TodoApp
+﻿
+namespace TodoApp
 {
     internal class TodoManager
     {
@@ -16,6 +17,7 @@
             Console.WriteLine("choose your operation");
             Console.WriteLine("1. Add Task");
             Console.WriteLine("2. View All Tasks");
+            Console.WriteLine("3. Search");
         }
 
         private string ReadInput(string message)
@@ -48,19 +50,32 @@
 
             if (choice == 2)
             {
-                PrintTasks();
+                PrintTasks(todo.tasks);
+                return;
+            }
+
+            if (choice == 3)
+            {
+                var filteredTasks = Search();
+                PrintTasks(filteredTasks);
                 return;
             }
 
             Console.WriteLine("Invalid choice, Try Again!");
         }
 
-        private void PrintTasks()
+        private List<Task> Search()
+        {
+            var keyword = ReadInput("Keyword to Search: ");
+            return todo.tasks.Where(t => t.Title.Contains(keyword)).ToList();
+        }
+
+        private void PrintTasks(List<Task> tasks)
         {
             Console.Clear();
             Console.WriteLine(string.Join("\t", "TaskId", "Title", "Done"));
 
-            foreach (var task in todo.tasks)
+            foreach (var task in tasks)
             {
                 Console.WriteLine(string.Join("\t", task.TaskId, task.Title, task.Done));
             }
