@@ -50,7 +50,7 @@ namespace TodoApp
 
             if (choice == 2)
             {
-                PrintTasks(todo.tasks);
+                PrintTasks(todo.GetAllTasks());
                 return;
             }
 
@@ -67,7 +67,7 @@ namespace TodoApp
         private List<Task> Search()
         {
             var keyword = ReadInput("Keyword to Search: ");
-            return todo.tasks.Where(t => t.Title.Contains(keyword)).ToList();
+            return todo.GetAllTasks().Where(t => t.Title.Contains(keyword)).ToList();
         }
 
         private void PrintTasks(List<Task> tasks)
@@ -81,4 +81,4 @@ namespace TodoApp
             }
         }
     }
-    }
+}

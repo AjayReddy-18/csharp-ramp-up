@@ -2,15 +2,8 @@
 {
     internal class Task
     {
-        public Task(int taskId, string title)
-        {
-            TaskId = taskId;
-            Title = title;
-            Done = false;
-        }
-
-        public int TaskId { get; }
-        public string Title { get; }
-        public bool Done { get; }
+        public int TaskId { get; set; }
+        public string Title { get; set; }
+        public int Done { get; set; }
     }
 };

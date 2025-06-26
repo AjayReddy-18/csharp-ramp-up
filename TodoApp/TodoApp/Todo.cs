@@ -1,26 +1,28 @@
-﻿using Newtonsoft.Json;
+﻿using Dapper;
+using System.Data.SQLite;
 
 namespace TodoApp
 {
     internal class Todo
     {
         public List<Task> tasks = new List<Task>();
-        private int nextTaskId;
+        private readonly SQLiteConnection _connection;
 
-        public Todo()
+        public Todo(SQLiteConnection connection)
         {
-            nextTaskId = 1;
+            _connection = connection;
         }
 
         public void AddTask(string title)
         {
-            tasks.Add(new Task(nextTaskId, title));
-            nextTaskId++;
+            var sql = $"INSERT INTO todo(title) VALUES('{title}');";
+            _connection.Query(sql);
         }
 
-        public string GetAllTasks()
+        public List<Task> GetAllTasks()
         {
-            return JsonConvert.SerializeObject(tasks, Formatting.Indented);
+            var sql = "SELECT * FROM todo;";
+            return _connection.Query<Task>(sql).ToList();
         }
     }
 };
