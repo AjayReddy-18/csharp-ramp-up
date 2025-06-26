@@ -3,9 +3,9 @@ namespace TodoApp
 {
     internal class TodoManager
     {
-        private readonly Todo todo;
+        private readonly ITodo todo;
 
-        public TodoManager(Todo todo)
+        public TodoManager(ITodo todo)
         {
             this.todo = todo;
         }
@@ -56,18 +56,13 @@ namespace TodoApp
 
             if (choice == 3)
             {
-                var filteredTasks = Search();
+                var keyword = ReadInput("Keyword to Search: ");
+                var filteredTasks = todo.SearchTasks(keyword);
                 PrintTasks(filteredTasks);
                 return;
             }
 
             Console.WriteLine("Invalid choice, Try Again!");
-        }
-
-        private List<Task> Search()
-        {
-            var keyword = ReadInput("Keyword to Search: ");
-            return todo.GetAllTasks().Where(t => t.Title.Contains(keyword)).ToList();
         }
 
         private void PrintTasks(List<Task> tasks)
