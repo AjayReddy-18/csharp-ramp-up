@@ -1,43 +1,27 @@
-﻿namespace TodoUIApp;
-
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Data.SQLite;
-using System.Windows.Input;
 using TodoApp;
 using Task = TodoApp.Task;
 
-public class MainViewModel : INotifyPropertyChanged
+namespace TodoUIApp;
+
+public partial class MainViewModel : ObservableObject
 {
-    public ObservableCollection<Task> Tasks { get; } = new ObservableCollection<Task>();
+    public ObservableCollection<Task> Tasks { get; } = new();
 
     private readonly Todo _todo;
-    private string _newTaskText;
 
-    public string NewTaskText
-    {
-        get => _newTaskText;
-        set
-        {
-            Console.WriteLine(value);
-            if (_newTaskText != value)
-            {
-                _newTaskText = value;
-                OnPropertyChanged(nameof(NewTaskText));
-                ((RelayCommand)AddTaskCommand).RaiseCanExecuteChanged();
-            }
-        }
-    }
-
-    public ICommand AddTaskCommand { get; }
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(AddTaskCommand))]
+    private string newTaskText = string.Empty;
 
     public MainViewModel()
     {
         var dbPath = @"Data Source=C:\Users\fws-t\workspace\personal\cs\TodoUIApp\TodoUIApp\todo.db";
         var connection = new SQLiteConnection(dbPath);
         _todo = new Todo(connection);
-
-        AddTaskCommand = new RelayCommand(AddTask, CanAddTask);
 
         LoadTasks();
     }
@@ -51,6 +35,7 @@ public class MainViewModel : INotifyPropertyChanged
         }
     }
 
+    [RelayCommand(CanExecute = nameof(CanAddTask))]
     private void AddTask()
     {
         _todo.AddTask(NewTaskText);
@@ -58,14 +43,5 @@ public class MainViewModel : INotifyPropertyChanged
         LoadTasks();
     }
 
-    private bool CanAddTask()
-    {
-        Console.WriteLine("In can add task");
-        return !string.IsNullOrWhiteSpace(NewTaskText);
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected void OnPropertyChanged(string propertyName) =>
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    private bool CanAddTask() => !string.IsNullOrWhiteSpace(NewTaskText);
 }
