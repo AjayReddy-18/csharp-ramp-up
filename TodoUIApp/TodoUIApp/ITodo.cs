@@ -2,8 +2,8 @@
 {
     internal interface ITodo
     {
-        void AddTask(string title);
-        List<Task> GetAllTasks();
-        List<Task> SearchTasks(string keyword);
+        Task AddTaskAsync(string title);
+        Task<List<TaskItem>> GetAllTasksAsync();
+        Task<List<TaskItem>> SearchTasksAsync(string keyword);
     }
 };

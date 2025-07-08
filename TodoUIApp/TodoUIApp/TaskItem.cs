@@ -1,6 +1,6 @@
 ﻿namespace TodoApp
 {
-    public class Task
+    public class TaskItem
     {
         public int TaskId { get; set; }
         public string Title { get; set; }

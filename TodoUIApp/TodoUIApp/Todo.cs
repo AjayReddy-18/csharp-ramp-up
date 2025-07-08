@@ -5,7 +5,6 @@ namespace TodoApp
 {
     internal class Todo : ITodo
     {
-        public List<Task> tasks = new List<Task>();
         private readonly SQLiteConnection _connection;
 
         public Todo(SQLiteConnection connection)
@@ -13,22 +12,24 @@ namespace TodoApp
             _connection = connection;
         }
 
-        public void AddTask(string title)
+        public async Task AddTaskAsync(string title)
         {
-            var sql = $"INSERT INTO todo(title) VALUES('{title}');";
-            _connection.Execute(sql);
+            var sql = "INSERT INTO todo(title) VALUES (@Title);";
+            await _connection.ExecuteAsync(sql, new { Title = title });
         }
 
-        public List<Task> GetAllTasks()
+        public async Task<List<TaskItem>> GetAllTasksAsync()
         {
             var sql = "SELECT * FROM todo;";
-            return [.. _connection.Query<Task>(sql)];
+            var tasks = await _connection.QueryAsync<TaskItem>(sql);
+            return tasks.ToList();
         }
 
-        public List<Task> SearchTasks(string keyword)
+        public async Task<List<TaskItem>> SearchTasksAsync(string keyword)
         {
-            var sql = $"SELECT * FROM todo WHERE title LIKE '%{keyword}%'";
-            return [.. _connection.Query<Task>(sql)];
+            var sql = "SELECT * FROM todo WHERE title LIKE @Keyword;";
+            var tasks = await _connection.QueryAsync<TaskItem>(sql, new { Keyword = $"%{keyword}%" });
+            return tasks.ToList();
         }
     }
-};
+}

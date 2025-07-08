@@ -3,13 +3,13 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
 using TodoApp;
-using Task = TodoApp.Task;
+using TaskItem = TodoApp.TaskItem;
 
 namespace TodoUIApp;
 
 public partial class MainViewModel : ObservableObject
 {
-    public ObservableCollection<Task> Tasks { get; } = new();
+    public ObservableCollection<TaskItem> Tasks { get; } = new();
 
     private readonly Todo _todo;
 
@@ -26,19 +26,19 @@ public partial class MainViewModel : ObservableObject
         LoadTasks();
     }
 
-    private void LoadTasks()
+    private async Task LoadTasks()
     {
         Tasks.Clear();
-        foreach (var task in _todo.GetAllTasks())
+        foreach (var task in await _todo.GetAllTasksAsync())
         {
             Tasks.Add(task);
         }
     }
 
     [RelayCommand(CanExecute = nameof(CanAddTask))]
-    private void AddTask()
+    private async Task AddTask()
     {
-        _todo.AddTask(NewTaskText);
+        await _todo.AddTaskAsync(NewTaskText);
         NewTaskText = string.Empty;
         LoadTasks();
     }
