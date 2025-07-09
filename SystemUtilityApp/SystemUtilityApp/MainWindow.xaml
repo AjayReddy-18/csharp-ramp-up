@@ -1,0 +1,12 @@
+﻿<Window x:Class="SystemUtilityApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="System Utility" Height="200" Width="400">
+    <Grid Margin="10">
+        <StackPanel>
+            <TextBlock Text="Windows Version:" FontSize="16" Margin="0,0,0,10"/>
+            <TextBlock x:Name="WindowsVersionText" FontSize="14" FontWeight="Bold" />
+            <Button Content="Read Windows Version" Click="OnReadVersionClick" Margin="0,20,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>
