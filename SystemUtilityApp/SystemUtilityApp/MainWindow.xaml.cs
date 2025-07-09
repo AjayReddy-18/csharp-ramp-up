@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.Win32;
 using System.Windows;
+using System.Diagnostics;
 
 namespace SystemUtilityApp
 {
@@ -84,5 +85,34 @@ namespace SystemUtilityApp
             }
         }
 
+        private void OnRunPowerShellClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ProcessStartInfo psi = new ProcessStartInfo
+                {
+                    FileName = "powershell.exe",
+                    Arguments = "-Command \"Get-Process | Select-Object -First 5 | Format-Table -AutoSize\"",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                using (Process process = new Process())
+                {
+                    process.StartInfo = psi;
+                    process.Start();
+
+                    string output = process.StandardOutput.ReadToEnd();
+                    process.WaitForExit();
+
+                    PowerShellOutputText.Text = output;
+                }
+            }
+            catch (Exception ex)
+            {
+                PowerShellOutputText.Text = $"Error: {ex.Message}";
+            }
+        }
     }
 }
